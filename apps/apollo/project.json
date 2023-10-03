@@ -14,7 +14,8 @@
     "serve": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx start apollo"
+        "command": "nx start apollo",
+        "proxyConfig": "apps/apollo/proxy.conf.json"
       }
     },
     "run-ios": {
