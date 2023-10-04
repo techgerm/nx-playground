@@ -10,6 +10,7 @@ import { initTRPC } from '@trpc/server';
 import { type CreateExpressContextOptions } from '@trpc/server/adapters/express';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
+import type { AppName } from '@org/app-names';
 
 /**
  * 1. CONTEXT
@@ -20,8 +21,8 @@ import { ZodError } from 'zod';
  */
 
 type CreateContextOptions = {
-  user: string;
-  baseUrl: string;
+  appName: AppName;
+  endpoint: string;
 };
 
 /**
@@ -35,7 +36,11 @@ type CreateContextOptions = {
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
-  return opts;
+  return {
+    ...opts,
+    session: 'user-session',
+    db: 'db-connection',
+  };
 };
 
 /**
@@ -44,41 +49,52 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: CreateExpressContextOptions) => {
-  const { req } = opts;
-  return createInnerTRPCContext({
-    user: 'john doe',
-    baseUrl: req.baseUrl,
-  });
+export const createTRPCContext = (
+  expressOpts: CreateExpressContextOptions,
+  innerOpts: CreateContextOptions
+) => {
+  const { req } = expressOpts;
+  const innerContext = createInnerTRPCContext(innerOpts);
+  return {
+    ...innerContext,
+    req,
+  };
+};
+
+type Meta = {
+  endpointVersion: 'v1' | 'v2';
 };
 
 /**
  * 2. INITIALIZATION
  *
  * This is where the tRPC API is initialized, connecting the context and transformer. We also parse
- * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
+ * ZodErrors so that you get type safety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
 
-const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  errorFormatter({ shape, error }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
-      },
-    };
-  },
-});
+const t = initTRPC
+  .context<typeof createTRPCContext>()
+  .meta<Meta>()
+  .create({
+    transformer: superjson,
+    errorFormatter({ shape, error }) {
+      return {
+        ...shape,
+        data: {
+          ...shape.data,
+          zodError:
+            error.cause instanceof ZodError ? error.cause.flatten() : null,
+        },
+      };
+    },
+  });
 
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)
  *
  * These are the pieces you use to build your tRPC API. You should import these a lot in the
- * "/src/server/api/routers" direcXCCtory.
+ * "/src/server/api/routers" directory.
  */
 
 /**
@@ -95,4 +111,7 @@ export const createTRPCRouter = t.router;
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
-export const publicProcedure = t.procedure;
+export const publicProcedureV1 = t.procedure.meta({ endpointVersion: 'v1' });
+export const publicProcedureV2 = t.procedure.meta({ endpointVersion: 'v2' });
+
+// TODO: protected procedure

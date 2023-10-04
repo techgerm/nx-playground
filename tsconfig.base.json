@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@org/app-names": ["libs/app-names/src/index.ts"],
       "@org/titan": ["libs/titan/src/index.ts"]
     }
   },

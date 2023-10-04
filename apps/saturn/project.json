@@ -14,7 +14,6 @@
         "outputPath": "dist/apps/saturn",
         "main": "apps/saturn/src/main.ts",
         "tsConfig": "apps/saturn/tsconfig.app.json",
-        "assets": ["apps/saturn/src/assets"],
         "isolatedConfig": true,
         "webpackConfig": "apps/saturn/webpack.config.js"
       },

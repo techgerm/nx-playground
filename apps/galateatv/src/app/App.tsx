@@ -11,13 +11,15 @@ import {
   Linking,
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
+import { Test } from './Test';
+import { TRPCProvider } from '../services/TRPCProvider';
 
 export const App = () => {
   const [whatsNextYCoord, setWhatsNextYCoord] = useState<number>(0);
   const scrollViewRef = useRef<null | ScrollView>(null);
 
   return (
-    <>
+    <TRPCProvider>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
@@ -30,9 +32,10 @@ export const App = () => {
           <View style={styles.section}>
             <Text style={styles.textLg}>Hello there,</Text>
             <Text style={[styles.textXL, styles.appTitleText]} testID="heading">
-              Welcome Galateatv 👋
+              Welcome GalateaTV 👋
             </Text>
           </View>
+          <Test />
           <View style={styles.section}>
             <View style={styles.hero}>
               <View style={styles.heroTitle}>
@@ -576,7 +579,7 @@ export const App = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-    </>
+    </TRPCProvider>
   );
 };
 const styles = StyleSheet.create({

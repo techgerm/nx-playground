@@ -9,7 +9,18 @@
     "react-native": "*",
     "expo": "*",
     "react-native-svg": "*",
-    "react-native-web": "*"
+    "react-native-web": "*",
+    "@nx/expo": "*",
+    "@expo/metro-config": "*",
+    "react-native-svg-transformer": "*",
+    "react": "*",
+    "superjson": "*",
+    "@tanstack/react-query": "*",
+    "@trpc/client": "*",
+    "@trpc/server": "*",
+    "zod": "*",
+    "expo-constants": "*",
+    "@trpc/react-query": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/galateatv && cp yarn.lock apps/galateatv",
