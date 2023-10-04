@@ -13,7 +13,14 @@
     "@nx/expo": "*",
     "@expo/metro-config": "*",
     "react-native-svg-transformer": "*",
-    "react": "*"
+    "react": "*",
+    "superjson": "*",
+    "@tanstack/react-query": "*",
+    "@trpc/client": "*",
+    "expo-constants": "*",
+    "@trpc/react-query": "*",
+    "@trpc/server": "*",
+    "zod": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/apollo && cp package-lock.json apps/apollo",

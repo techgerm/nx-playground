@@ -8,7 +8,12 @@
   "private": true,
   "dependencies": {
     "@expo/metro-config": "~0.10.7",
+    "@tanstack/react-query": "^4.35.7",
+    "@trpc/client": "^10.38.5",
+    "@trpc/react-query": "^10.38.5",
+    "@trpc/server": "^10.38.5",
     "axios": "^1.0.0",
+    "cors": "^2.8.5",
     "expo": "49.0.10",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
@@ -19,7 +24,9 @@
     "react-native-svg": "13.9.0",
     "react-native-svg-transformer": "1.0.0",
     "react-native-web": "~0.19.8",
-    "tslib": "^2.3.0"
+    "superjson": "^1.13.3",
+    "tslib": "^2.3.0",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@config-plugins/detox": "~6.0.0",
@@ -37,6 +44,7 @@
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/jest-native": "~5.4.3",
     "@testing-library/react-native": "~12.3.0",
+    "@types/cors": "^2.8.14",
     "@types/express": "4.17.13",
     "@types/jest": "^29.4.0",
     "@types/node": "~18.7.1",
